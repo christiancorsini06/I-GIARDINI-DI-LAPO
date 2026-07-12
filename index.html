@@ -212,7 +212,7 @@
     <section class="py-12 bg-forest-800 text-white relative z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div class="flex items-center gap-5">
+                <div class="flex items-center gap-5 reveal-up">
                     <div class="w-14 h-14 rounded-2xl bg-amberwood-500 text-forest-900 flex items-center justify-center text-2xl shadow-inner shrink-0">
                         <i class="fa-regular fa-calendar-days"></i>
                     </div>
@@ -225,7 +225,7 @@
                         </h3>
                     </div>
                 </div>
-                <div class="flex flex-wrap gap-4 max-w-2xl w-full lg:w-auto" id="dynamic-advice-container">
+                <div class="flex flex-wrap gap-4 max-w-2xl w-full lg:w-auto reveal-up" id="dynamic-advice-container">
                     <!-- Il contenuto verrà iniettato dinamicamente da JavaScript -->
                 </div>
             </div>
@@ -234,7 +234,8 @@
 
     <section id="chi-siamo" class="py-24 relative overflow-hidden bg-[#FAF8F5]">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-            <div class="bg-white rounded-[2.5rem] p-8 sm:p-14 lg:p-16 shadow-xl border border-gray-100 gsap-fade-up">
+            <!-- Aggiunta classe reveal-up -->
+            <div class="bg-white rounded-[2.5rem] p-8 sm:p-14 lg:p-16 shadow-xl border border-gray-100 reveal-up">
                 <div class="flex flex-col lg:flex-row items-start gap-12">
                     <div class="w-full">
                         <span class="text-amberwood-600 font-bold tracking-widest uppercase text-xs mb-3 block">La Terra, Prima di Tutto</span>
@@ -291,7 +292,8 @@
 
     <section id="prima-dopo" class="py-24 bg-white relative z-20 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
+            <!-- Aggiunta classe reveal-up -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-up">
                 <h2 class="text-amberwood-600 font-bold tracking-widest uppercase text-xs mb-3">La concretezza dei risultati</h2>
                 <h3 class="text-3xl sm:text-5xl font-serif font-bold text-forest-800 mb-6">Guarda le nostre trasformazioni</h3>
                 <p class="text-gray-600 text-base sm:text-lg">
@@ -299,15 +301,15 @@
                 </p>
             </div>
 
-            <div class="max-w-4xl mx-auto relative rounded-3xl overflow-hidden shadow-2xl aspect-[16/10] select-none border-4 border-white touch-pan-y" id="slider-container">
+            <div class="max-w-4xl mx-auto relative rounded-3xl overflow-hidden shadow-2xl aspect-[16/10] select-none border-4 border-white touch-pan-y reveal-up" id="slider-container">
                 <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=1400&q=80" alt="Giardino dopo la manutenzione di Lapo Bacci" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
-                <div class="absolute bottom-6 right-6 bg-forest-800/90 text-white font-bold px-4 py-2 rounded-lg text-xs sm:text-sm tracking-wide shadow-md z-30 pointer-events-none">
+                <div class="absolute top-4 right-4 sm:top-auto sm:bottom-6 sm:right-6 bg-forest-800/90 text-white font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[10px] sm:text-sm tracking-wide shadow-md z-30 pointer-events-none">
                     DOPO IL NOSTRO INTERVENTO
                 </div>
 
                 <div class="absolute inset-0 w-full h-full overflow-hidden z-10 pointer-events-none" id="before-image-wrap">
                     <img src="https://images.unsplash.com/photo-1508849789987-4e5333c12b78?auto=format&fit=crop&w=1400&q=80" alt="Giardino trascurato prima dell'intervento" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
-                    <div class="absolute bottom-6 left-6 bg-red-800/90 text-white font-bold px-4 py-2 rounded-lg text-xs sm:text-sm tracking-wide shadow-md pointer-events-none">
+                    <div class="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-red-800/90 text-white font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[10px] sm:text-sm tracking-wide shadow-md pointer-events-none">
                         STATO DI ABBANDONO INIZIALE
                     </div>
                 </div>
@@ -323,7 +325,8 @@
 
     <section id="servizi" class="py-24 bg-[#FAF8F5] relative border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
+            <!-- Aggiunta classe reveal-up -->
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-up">
                 <h2 class="text-amberwood-600 font-bold tracking-widest uppercase text-xs mb-3">Interventi Professionali</h2>
                 <h3 class="text-3xl sm:text-5xl font-serif font-bold text-forest-800 mb-6">Tutti i Servizi di Giardinaggio</h3>
                 <p class="text-gray-600 text-base sm:text-lg">
@@ -332,7 +335,8 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                <!-- Aggiunta classe reveal-up a ciascuna card -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group reveal-up">
                     <div class="h-52 relative overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=600&q=80" alt="Manutenzione Giardini Privati e Condomini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
@@ -347,7 +351,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group reveal-up">
                     <div class="h-52 relative overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80" alt="Potatura alberi siepi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
@@ -362,7 +366,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group reveal-up">
                     <div class="h-52 relative overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=600&q=80" alt="Posa prato a rotoli" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
@@ -377,7 +381,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group reveal-up">
                     <div class="h-52 relative overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=600&q=80" alt="Impianti Irrigazione a Goccia" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
@@ -392,7 +396,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group reveal-up">
                     <div class="h-52 relative overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80" alt="Disegno e Progettazione Giardini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
@@ -407,7 +411,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group reveal-up">
                     <div class="h-52 relative overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=600&q=80" alt="Antiparassitari e Patentino Fitosanitario" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
@@ -427,7 +431,8 @@
 
     <section id="preventivatore" class="py-24 bg-white relative z-20 border-t border-gray-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <div class="bg-[#1A3B26] rounded-3xl p-8 md:p-14 text-white shadow-2xl relative overflow-hidden">
+            <!-- Aggiunta classe reveal-up -->
+            <div class="bg-[#1A3B26] rounded-3xl p-8 md:p-14 text-white shadow-2xl relative overflow-hidden reveal-up">
                 <div class="absolute inset-0 opacity-10 mix-blend-overlay">
                     <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Background Texture">
                 </div>
@@ -488,7 +493,8 @@
 
     <section id="galleria" class="py-24 bg-[#FAF8F5] relative z-20 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-4xl mx-auto mb-16 gsap-fade-up">
+            <!-- Aggiunta classe reveal-up -->
+            <div class="text-center max-w-4xl mx-auto mb-16 reveal-up">
                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-forest-800 mb-6">Fotografie Reali di Lavori Svolti</h2>
                 <p class="text-gray-600 text-lg">
                     Alcune delle nostre realizzazioni. Nessun modello 3D fittizio, solo giardini reali manutenuti direttamente sul territorio fiorentino.
@@ -496,22 +502,23 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                <!-- Aggiunta classe reveal-up a ciascuna immagine -->
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300 reveal-up">
                     <img src="https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 1" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                 </div>
-                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300 reveal-up">
                     <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 2" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                 </div>
-                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300 reveal-up">
                     <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 3" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                 </div>
-                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300 reveal-up">
                     <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 4" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                 </div>
-                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300 reveal-up">
                     <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 5" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                 </div>
-                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300 reveal-up">
                     <img src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 6" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                 </div>
             </div>
@@ -520,7 +527,8 @@
 
     <section id="prenotazione" class="py-24 bg-white relative z-20 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row bg-[#FAF8F5] rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100">
+            <!-- Aggiunta classe reveal-up -->
+            <div class="flex flex-col lg:flex-row bg-[#FAF8F5] rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 reveal-up">
                 
                 <!-- Left Panel (Info & Social) -->
                 <div class="w-full lg:w-5/12 bg-[#1A3B26] text-white p-10 md:p-16 flex flex-col justify-between relative overflow-hidden">
@@ -679,7 +687,6 @@
                 <p class="mt-1">P.IVA 05602160482 - Sede Legale: Via di Varlungo snc, 50136 Firenze</p>
             </div>
             
-            <!-- NUOVO: Link che aprono le Modali -->
             <div class="flex gap-6 text-xs text-gray-400">
                 <button type="button" onclick="openModal('privacyModal')" class="hover:text-white transition-colors cursor-pointer">Privacy Policy</button>
                 <button type="button" onclick="openModal('cookieModal')" class="hover:text-white transition-colors cursor-pointer">Cookie Policy</button>
@@ -1062,6 +1069,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             gsap.registerPlugin(ScrollTrigger);
 
+            // Animazione Hero
             gsap.from(".hero-anim", {
                 y: 30,
                 opacity: 0,
@@ -1070,6 +1078,7 @@
                 delay: 0.1
             });
 
+            // Parallasse Video Background
             gsap.to("#hero-bg-video", {
                 scrollTrigger: {
                     trigger: "section",
@@ -1081,15 +1090,19 @@
                 scale: 1.15
             });
 
-            gsap.from(".gsap-fade-up", {
-                scrollTrigger: {
-                    trigger: "#chi-siamo",
-                    start: "top 80%",
-                },
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
+            // NUOVA ANIMAZIONE GENERICA REVEAL-UP
+            gsap.utils.toArray('.reveal-up').forEach(element => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%", // L'animazione parte quando la cima dell'elemento raggiunge l'85% dell'altezza dello schermo
+                        toggleActions: "play none none none"
+                    },
+                    y: 40, // Spostamento leggero verso l'alto
+                    opacity: 0, // Fade-in
+                    duration: 1, // Durata morbida
+                    ease: "power3.out" // Curva elegante
+                });
             });
             
             const form = document.getElementById('bookingForm');
@@ -1098,7 +1111,7 @@
             }
         });
 
-        // NUOVO: Gestione apertura e chiusura Modali legali (Privacy e Cookie)
+        // Gestione apertura e chiusura Modali legali (Privacy e Cookie)
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             const content = document.getElementById(modalId.replace('Modal', 'Content'));
