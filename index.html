@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Giardini di Lapo | Giardiniere Professionista a Firenze</title>
+    
+    <!-- Tailwind CSS for modern responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for clean, elegant icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Elegant serif for Tuscan heritage feel, modern sans-serif for UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for smooth scroll-driven premium animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            50: '#f2f8f4',
+                            100: '#e1efe6',
+                            200: '#c5dfcd',
+                            300: '#9cc7a9',
+                            400: '#6ea77f',
+                            500: '#4c8c5f',
+                            600: '#3a7049',
+                            700: '#2f5b3c',
+                            800: '#1b3824',
+                            900: '#122518',
+                        },
+                        amberwood: {
+                            50: '#fdfbf7',
+                            100: '#f3ebd8',
+                            200: '#e5d3b1',
+                            300: '#d2b583',
+                            400: '#bf985d',
+                            500: '#ab7d41',
+                            600: '#906433',
+                            700: '#754e2a',
+                            800: '#5e3e24',
+                            900: '#4e331f',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            overflow-x: hidden; 
+            background-color: #fcfbf9;
+        }
+
+        #leaf-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .glass-header {
+            background: rgba(252, 251, 249, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(47, 91, 60, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .image-zoom-trigger:hover .zoom-target {
+            transform: scale(1.06);
+        }
+        
+        .zoom-target {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slider-handle {
+            cursor: ew-resize;
+            box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.3), 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fcfbf9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5dfcd;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9cc7a9;
+        }
+        
+        /* --- OTTIMIZZAZIONI SPECIFICHE MOBILE --- */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important; /* Previene l'auto-zoom fastidioso di iOS Safari */
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800 font-sans antialiased">
+
+    <canvas id="leaf-canvas"></canvas>
+
+    <nav id="navbar" class="fixed w-full z-50 glass-header transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-11 h-11 bg-forest-800 rounded-xl flex items-center justify-center text-amberwood-200 shadow-md">
+                        <i class="fa-solid fa-seedling text-lg"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif font-bold text-xl text-forest-800 tracking-tight leading-none">I Giardini di Lapo</span>
+                        <span class="text-[10px] text-amberwood-700 tracking-widest uppercase font-semibold mt-1">Architettura del Verde</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#chi-siamo" class="text-forest-800/80 hover:text-forest-800 font-semibold transition-colors text-sm">Chi Siamo</a>
+                    <a href="#servizi" class="text-forest-800/80 hover:text-forest-800 font-semibold transition-colors text-sm">I Nostri Servizi</a>
+                    <a href="#prima-dopo" class="text-forest-800/80 hover:text-forest-800 font-semibold transition-colors text-sm">Prima e Dopo</a>
+                    <a href="#preventivatore" class="text-forest-800/80 hover:text-forest-800 font-semibold transition-colors text-sm">Calcola Preventivo</a>
+                    <a href="#galleria" class="text-forest-800/80 hover:text-forest-800 font-semibold transition-colors text-sm">Le Nostre Opere</a>
+                    <a href="#prenotazione" class="bg-forest-800 hover:bg-forest-700 text-amberwood-100 px-6 py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition-all text-sm transform hover:-translate-y-0.5">
+                        Prenota Sopralluogo
+                    </a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-forest-800 hover:text-forest-600 focus:outline-none p-2" aria-label="Menu">
+                        <i class="fas fa-bars-staggered text-2xl pointer-events-none"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden glass-header border-t border-forest-800/10 absolute w-full shadow-2xl max-h-[85vh] overflow-y-auto transition-all">
+            <div class="px-4 pt-4 pb-8 space-y-2 flex flex-col">
+                <a href="#chi-siamo" class="mobile-link block px-5 py-3.5 text-base font-semibold text-forest-800 hover:bg-forest-50/80 rounded-xl transition-colors">Chi Siamo</a>
+                <a href="#servizi" class="mobile-link block px-5 py-3.5 text-base font-semibold text-forest-800 hover:bg-forest-50/80 rounded-xl transition-colors">I Nostri Servizi</a>
+                <a href="#prima-dopo" class="mobile-link block px-5 py-3.5 text-base font-semibold text-forest-800 hover:bg-forest-50/80 rounded-xl transition-colors">Prima e Dopo</a>
+                <a href="#preventivatore" class="mobile-link block px-5 py-3.5 text-base font-semibold text-forest-800 hover:bg-forest-50/80 rounded-xl transition-colors">Calcola Preventivo</a>
+                <a href="#galleria" class="mobile-link block px-5 py-3.5 text-base font-semibold text-forest-800 hover:bg-forest-50/80 rounded-xl transition-colors">Le Nostre Opere</a>
+                <a href="#prenotazione" class="mobile-link mt-4 block text-center bg-forest-800 text-amberwood-100 px-5 py-4 rounded-xl font-bold shadow-md">Prenota Sopralluogo</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 w-full h-full z-0">
+            <video id="hero-bg-video" autoplay loop muted playsinline class="w-full h-full object-cover object-center filter brightness-[0.85] scale-105 transform">
+                <source src="56959-482208626.mp4" type="video/mp4">
+                Il tuo browser non supporta i video HTML5.
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-forest-950/90 via-forest-900/60 to-forest-950/90"></div>
+        </div>
+        
+        <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center">
+            <div class="max-w-4xl mx-auto hero-anim">
+                <div class="inline-flex items-center gap-2 bg-forest-950/80 backdrop-blur-md text-amberwood-300 border border-amberwood-400/40 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold mb-6 tracking-wide uppercase shadow-[0_4px_15px_rgba(0,0,0,0.5)]">
+                    <i class="fa-solid fa-location-dot text-amberwood-400"></i> Firenze, Prato e Provincia • Cura Professionale
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans font-extrabold tracking-tight text-white mb-6 leading-[1.15] drop-shadow-[0_8px_12px_rgba(0,0,0,0.8)]">
+                    Trasformiamo il tuo giardino <br class="hidden md:block"/>nel tuo <span class="text-amberwood-300 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)]">angolo di paradiso.</span>
+                </h1>
+                
+                <p class="text-lg sm:text-xl md:text-2xl text-gray-50 mb-10 max-w-3xl mx-auto font-medium leading-relaxed drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)]">
+                    Incontra <strong>Lapo Bacci</strong>: giardiniere professionista a Firenze. Dal prato all'inglese perfetto alla potatura specializzata di alberi d'alto fusto. Solo risultati concreti e certificati.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#prenotazione" class="w-full sm:w-auto bg-amberwood-400 hover:bg-amberwood-300 text-forest-950 px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:shadow-amberwood-400/30 transition-all transform hover:-translate-y-1">
+                        Sopralluogo Gratuito
+                    </a>
+                    <a href="#servizi" class="w-full sm:w-auto bg-forest-950/70 hover:bg-forest-900/90 text-white border border-white/20 backdrop-blur-md px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
+                        I Nostri Servizi <i class="fas fa-arrow-down text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-forest-800 text-white relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-2xl bg-amberwood-500 text-forest-900 flex items-center justify-center text-2xl shadow-inner shrink-0">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-amberwood-300 font-bold uppercase tracking-widest text-xs">
+                            AGENDA DEL VERDE: <span id="dynamic-month" class="uppercase">Luglio</span>
+                        </h4>
+                        <h3 class="text-2xl sm:text-3xl font-sans font-extrabold tracking-tight mt-1 text-white">
+                            Cosa serve al tuo giardino questo mese?
+                        </h3>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-4 max-w-2xl w-full lg:w-auto" id="dynamic-advice-container">
+                    <!-- Il contenuto verrà iniettato dinamicamente da JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chi-siamo" class="py-24 relative overflow-hidden bg-[#FAF8F5]">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+            <div class="bg-white rounded-[2.5rem] p-8 sm:p-14 lg:p-16 shadow-xl border border-gray-100 gsap-fade-up">
+                <div class="flex flex-col lg:flex-row items-start gap-12">
+                    <div class="w-full">
+                        <span class="text-amberwood-600 font-bold tracking-widest uppercase text-xs mb-3 block">La Terra, Prima di Tutto</span>
+                        <h3 class="text-3xl sm:text-5xl font-serif font-bold text-forest-800 mb-6 leading-tight">
+                            La passione di una vita, la competenza di un Dottore Forestale
+                        </h3>
+                        
+                        <div class="space-y-5 text-gray-700 text-base sm:text-lg leading-relaxed">
+                            <p>
+                                Mi presento, sono <strong>Lapo Bacci</strong>. La grande passione per il verde, per la natura, per le piante, insita in me sin da bambino, mi ha portato a svolgere l'attività di giardiniere a Firenze da oltre dieci anni.
+                            </p>
+                            <p>
+                                Sono <strong>Laureato in Scienze Agrarie e Forestali</strong> all'Università di Firenze, un bagaglio di studi che mi permette di unire la pratica a una profonda conoscenza scientifica e fitosanitaria.
+                            </p>
+                            <p>
+                                Mi occupo di <strong>progettazione di giardini e spazi verdi a Firenze</strong>, nonché della loro manutenzione. Con l'ausilio della tecnologia posso fornirvi un <strong>rendering fotografico e planimetrico</strong> di ogni progetto verde, per farvi vedere in anticipo il risultato finale.
+                            </p>
+                            <p>
+                                Inoltre, mi occupo di <strong>impianti di irrigazione, potatura ed abbattimento di piante ed alberi</strong>, anche di grandi dimensioni, in totale sicurezza. Svolgo la mia attività principalmente a <strong>Firenze e Prato</strong>, ma sono sempre disponibile a valutare interventi anche in altre zone geografiche.
+                            </p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-10 pt-8 border-t border-forest-100">
+                            <div class="flex items-center gap-3.5">
+                                <div class="text-forest-800 bg-forest-100 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-clipboard-check text-base"></i>
+                                </div>
+                                <span class="text-forest-900 font-semibold text-sm">Abilitazione Fitosanitaria (Patentino)</span>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <div class="text-forest-800 bg-forest-100 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-tree text-base"></i>
+                                </div>
+                                <span class="text-forest-900 font-semibold text-sm">Specialista in Tree-Climbing e Fusti</span>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <div class="text-forest-800 bg-forest-100 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-droplet text-base"></i>
+                                </div>
+                                <span class="text-forest-900 font-semibold text-sm">Tecnico Impianti Idrici di Irrigazione</span>
+                            </div>
+                            <div class="flex items-center gap-3.5">
+                                <div class="text-forest-800 bg-forest-100 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-shield-halved text-base"></i>
+                                </div>
+                                <span class="text-forest-900 font-semibold text-sm">Attività Regolarmente Assicurata</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prima-dopo" class="py-24 bg-white relative z-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
+                <h2 class="text-amberwood-600 font-bold tracking-widest uppercase text-xs mb-3">La concretezza dei risultati</h2>
+                <h3 class="text-3xl sm:text-5xl font-serif font-bold text-forest-800 mb-6">Guarda le nostre trasformazioni</h3>
+                <p class="text-gray-600 text-base sm:text-lg">
+                    Trascina il cursore centrale a destra e sinistra per vedere il prima e il dopo di un nostro intervento di ripristino del manto erboso e sagomatura arbusti.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto relative rounded-3xl overflow-hidden shadow-2xl aspect-[16/10] select-none border-4 border-white touch-pan-y" id="slider-container">
+                <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=1400&q=80" alt="Giardino dopo la manutenzione di Lapo Bacci" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute bottom-6 right-6 bg-forest-800/90 text-white font-bold px-4 py-2 rounded-lg text-xs sm:text-sm tracking-wide shadow-md z-30 pointer-events-none">
+                    DOPO IL NOSTRO INTERVENTO
+                </div>
+
+                <div class="absolute inset-0 w-full h-full overflow-hidden z-10 pointer-events-none" id="before-image-wrap">
+                    <img src="https://images.unsplash.com/photo-1508849789987-4e5333c12b78?auto=format&fit=crop&w=1400&q=80" alt="Giardino trascurato prima dell'intervento" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute bottom-6 left-6 bg-red-800/90 text-white font-bold px-4 py-2 rounded-lg text-xs sm:text-sm tracking-wide shadow-md pointer-events-none">
+                        STATO DI ABBANDONO INIZIALE
+                    </div>
+                </div>
+
+                <div class="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20" id="slider-bar">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-2xl slider-handle text-forest-800">
+                        <i class="fa-solid fa-left-right text-lg pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servizi" class="py-24 bg-[#FAF8F5] relative border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 gsap-fade-up">
+                <h2 class="text-amberwood-600 font-bold tracking-widest uppercase text-xs mb-3">Interventi Professionali</h2>
+                <h3 class="text-3xl sm:text-5xl font-serif font-bold text-forest-800 mb-6">Tutti i Servizi di Giardinaggio</h3>
+                <p class="text-gray-600 text-base sm:text-lg">
+                    Che si tratti di una potatura d'alto fusto o della cura quotidiana del prato, interveniamo a Firenze con tempismo e la certezza della massima qualità.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-52 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=600&q=80" alt="Manutenzione Giardini Privati e Condomini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                            PROGRAMMATA
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-forest-800 mb-3">Cura Giardini e Condomini</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Piani di manutenzione ordinaria con cadenza settimanale o mensile. Taglio erba, pulizia aiuole, concimazione stagionale e controllo dello stato di salute generale delle piante.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-52 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80" alt="Potatura alberi siepi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                            SPECIALIZZATA
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-forest-800 mb-3">Potature e Abbattimenti</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Cura artistica e fitosanitaria di siepi, arbusti sagomati e alberi da frutto. Gestione qualificata e sicura di piante ad alto fusto con attrezzatura a norma di legge.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-52 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=600&q=80" alt="Posa prato a rotoli" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                            RAPIDO
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-forest-800 mb-3">Tappeti Erbosi a Rotoli</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Posa professionale di prato pronto a rotoli per un risultato denso e privo di erbe infestanti in sole 24 ore. In alternativa, semina mirata a seconda del microclima del giardino.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-52 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=600&q=80" alt="Impianti Irrigazione a Goccia" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                            TECNOLOGIA
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-forest-800 mb-3">Impianti di Irrigazione</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Progettazione, posa tubature e taratura centraline elettroniche. Sistemi di microirrigazione a goccia per terrazze e irrigatori a scomparsa per tappeti erbosi, ottimizzando il consumo idrico.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-52 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80" alt="Disegno e Progettazione Giardini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                            RENDERING
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-forest-800 mb-3">Progettazione Paesaggistica</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Prima di piantare, visualizza il risultato. Creazione di planimetrie reali e rendering 3D basati sulle dimensioni effettive della tua proprietà per un giardino cucito su misura.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-52 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=600&q=80" alt="Antiparassitari e Patentino Fitosanitario" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
+                            PATENTINO
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-forest-800 mb-3">Fitosanitari e Antizanzare</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Servizi professionali contro zanzare, afidi e insetti nocivi. Diserbo selettivo del prato e disinfestazione eseguiti con l'uso di prodotti certificati in possesso di regolare patentino.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="preventivatore" class="py-24 bg-white relative z-20 border-t border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-[#1A3B26] rounded-3xl p-8 md:p-14 text-white shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 mix-blend-overlay">
+                    <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Background Texture">
+                </div>
+                
+                <div class="relative z-10">
+                    <div class="text-center mb-10">
+                        <span class="text-amberwood-300 font-bold uppercase tracking-widest text-xs mb-3 block">Trasparenza Immediata</span>
+                        <h3 class="text-4xl font-serif font-bold text-white">Calcola un Preventivo Indicativo</h3>
+                        <p class="text-forest-100 mt-3 text-lg">Forniamo una prima stima realistica basata sulla superficie e sui lavori richiesti.</p>
+                    </div>
+
+                    <div class="space-y-10 mt-12">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <label class="font-semibold text-lg tracking-wide">1. Dimensioni dell'area (Mq indicativi):</label>
+                                <span class="text-amberwood-300 font-bold text-2xl" id="area-val">150 Mq</span>
+                            </div>
+                            <input type="range" id="area-slider" min="20" max="1500" step="10" value="150" class="w-full h-2 bg-forest-700/50 rounded-lg appearance-none cursor-pointer accent-amberwood-400 mt-2">
+                        </div>
+
+                        <div>
+                            <label class="font-semibold text-lg tracking-wide block mb-5">2. Quali servizi ti occorrono?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <label class="flex items-center gap-4 bg-forest-800/80 p-5 rounded-2xl cursor-pointer hover:bg-forest-700 transition-colors border border-forest-600/30">
+                                    <input type="checkbox" value="2" class="w-6 h-6 accent-amberwood-400 calc-service" checked>
+                                    <span class="text-base font-medium">Taglio Erba / Pulizia Generale</span>
+                                </label>
+                                <label class="flex items-center gap-4 bg-forest-800/80 p-5 rounded-2xl cursor-pointer hover:bg-forest-700 transition-colors border border-forest-600/30">
+                                    <input type="checkbox" value="1.5" class="w-6 h-6 accent-amberwood-400 calc-service">
+                                    <span class="text-base font-medium">Potatura Siepi e Cespugli</span>
+                                </label>
+                                <label class="flex items-center gap-4 bg-forest-800/80 p-5 rounded-2xl cursor-pointer hover:bg-forest-700 transition-colors border border-forest-600/30">
+                                    <input type="checkbox" value="300" class="w-6 h-6 accent-amberwood-400 calc-fixed-service">
+                                    <span class="text-base font-medium">Impianto di Irrigazione (Posa)</span>
+                                </label>
+                                <label class="flex items-center gap-4 bg-forest-800/80 p-5 rounded-2xl cursor-pointer hover:bg-forest-700 transition-colors border border-forest-600/30">
+                                    <input type="checkbox" value="150" class="w-6 h-6 accent-amberwood-400 calc-fixed-service">
+                                    <span class="text-base font-medium">Trattamento Antizanzare Stagionale</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-forest-700/50 pt-8 mt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+                            <div>
+                                <span class="text-xs text-forest-300 font-medium tracking-wider uppercase">STIMA COSTO INTERVENTO INIZIALE</span>
+                                <div class="text-5xl font-bold text-amberwood-300 mt-2" id="total-estimation">€ 450,00</div>
+                                <p class="text-[10px] text-forest-400 mt-2">*Iva esclusa. Il prezzo reale verrà confermato dopo il sopralluogo gratuito.</p>
+                            </div>
+                            <a id="whatsapp-quote-btn" href="https://wa.me/393315730686" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto bg-amberwood-500 hover:bg-amberwood-400 text-forest-900 font-bold px-8 py-4 rounded-xl transition-all shadow-md text-center text-sm">
+                                Contattami Per Un Preventivo Più Accurato
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galleria" class="py-24 bg-[#FAF8F5] relative z-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto mb-16 gsap-fade-up">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-forest-800 mb-6">Fotografie Reali di Lavori Svolti</h2>
+                <p class="text-gray-600 text-lg">
+                    Alcune delle nostre realizzazioni. Nessun modello 3D fittizio, solo giardini reali manutenuti direttamente sul territorio fiorentino.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 1" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 2" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 3" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 4" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 5" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="rounded-3xl overflow-hidden aspect-[4/3] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <img src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=800&q=80" alt="Lavoro completato 6" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prenotazione" class="py-24 bg-white relative z-20 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row bg-[#FAF8F5] rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100">
+                
+                <!-- Left Panel (Info & Social) -->
+                <div class="w-full lg:w-5/12 bg-[#1A3B26] text-white p-10 md:p-16 flex flex-col justify-between relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="text-amberwood-300 font-bold uppercase tracking-widest text-xs mb-4 block">Parla direttamente con Lapo</span>
+                        <h3 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Mettiamoci in <br>Contatto</h3>
+                        
+                        <p class="text-forest-100 mb-12 text-base leading-relaxed max-w-sm">
+                            Richiedi un sopralluogo gratuito. Lapo verrà personalmente a esaminare il tuo giardino o terrazzo, fornendoti una consulenza specializzata sul posto.
+                        </p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-forest-800/50 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-location-dot text-amberwood-300"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-forest-300 mb-1">Sede Operativa</span>
+                                    <span class="font-medium text-white">Via di Varlungo snc, 50136 Firenze</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-forest-800/50 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-phone text-amberwood-300"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-forest-300 mb-1">Telefono / WhatsApp</span>
+                                    <span class="font-medium text-white">+39 331 5730686</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-forest-800/50 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-envelope text-amberwood-300"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-xs text-forest-300 mb-1">E-mail</span>
+                                    <span class="font-medium text-white">info@igiardinidilapo.it</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottoni Social -->
+                    <div class="relative z-10 mt-16 pt-8 border-t border-forest-700/50">
+                        <span class="text-xs text-forest-300 mb-4 block">Seguici sui canali o contattaci:</span>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="https://wa.me/393315730686" target="_blank" rel="noopener" class="w-12 h-12 rounded-xl bg-[#25D366] text-white flex items-center justify-center text-xl hover:scale-105 transition-transform shadow-lg" aria-label="WhatsApp">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                            <a href="https://www.instagram.com/i_giardini_di_lapo_firenze?igsh=bWsybGNzanF4M3R0" target="_blank" rel="noopener" class="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center text-xl hover:scale-105 transition-transform shadow-lg" aria-label="Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/share/1ARrvBJAcD/?mibextid=wwXIfr" target="_blank" rel="noopener" class="w-12 h-12 rounded-xl bg-[#1877F2] text-white flex items-center justify-center text-xl hover:scale-105 transition-transform shadow-lg" aria-label="Facebook">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel (Form) -->
+                <div class="w-full lg:w-7/12 p-10 md:p-16 bg-[#FCFAF7]">
+                    <h3 class="text-3xl font-serif font-bold text-forest-800 mb-8">Prenota Ora il tuo Sopralluogo</h3>
+                    
+                    <form id="bookingForm" class="space-y-6">
+                        <!-- Impostazioni Nascoste Web3Forms -->
+                        <input type="hidden" name="access_key" value="4fb5da6d-f061-4e1e-b5b7-279a70e766db">
+                        <input type="hidden" name="subject" value="Nuova richiesta di Sopralluogo - I Giardini di Lapo">
+                        <input type="hidden" name="from_name" value="Sito Web - I Giardini di Lapo">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Nome e Cognome *</label>
+                                <input type="text" id="name" name="Nome" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Telefono *</label>
+                                <input type="tel" id="phone" name="Telefono" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Email</label>
+                            <input type="email" id="email" name="Email" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white">
+                        </div>
+                        
+                        <div>
+                            <label for="service" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Servizio Necessario</label>
+                            <select id="service" name="Servizio" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white text-gray-700">
+                                <option value="Cura Giardino Ordinaria / Condominio">Cura Giardino Ordinaria / Condominio</option>
+                                <option value="Potatura o Abbattimento Piante">Potatura o Abbattimento Piante</option>
+                                <option value="Prato Pronto a Rotoli o Semina">Prato Pronto a Rotoli o Semina</option>
+                                <option value="Realizzazione Impianto d'Irrigazione">Realizzazione Impianto d'Irrigazione</option>
+                                <option value="Progettazione 3D Giardino">Progettazione 3D Giardino</option>
+                                <option value="Disinfestazione Antiparassitari / Antizanzare">Disinfestazione Antiparassitari / Antizanzare</option>
+                                <option value="Altro Intervento">Altro Intervento</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="date" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Giorno Preferito</label>
+                                <input type="date" id="date" name="Data_Preferita" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white text-gray-700">
+                            </div>
+                            <div>
+                                <label for="time" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Orario Preferito</label>
+                                <input type="time" id="time" name="Orario_Preferito" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white text-gray-700">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Dettagli della tua richiesta</label>
+                            <textarea id="message" name="Messaggio" rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white resize-none text-gray-700" placeholder="Descrivi qui brevemente lo stato attuale dell'area e le tue necessità..."></textarea>
+                        </div>
+
+                        <!-- NUOVO: Spunta obbligatoria per la Privacy Policy -->
+                        <div class="flex items-start gap-3 mt-4">
+                            <input type="checkbox" id="privacy-consent" name="Consenso_Privacy" required class="mt-1 w-4 h-4 accent-[#1A3B26] cursor-pointer">
+                            <label for="privacy-consent" class="text-xs text-gray-600 leading-tight cursor-pointer">
+                                Ho letto e compreso la <button type="button" onclick="openModal('privacyModal')" class="text-forest-600 font-bold underline hover:text-forest-800">Privacy Policy</button> e acconsento al trattamento dei miei dati personali per gestire la richiesta di contatto.*
+                            </label>
+                        </div>
+                        
+                        <!-- Checkbox invisibile contro lo spam automatico richiesto da Web3Forms -->
+                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                        
+                        <!-- Bottone Submit -->
+                        <button type="submit" class="w-full bg-[#1A3B26] hover:bg-forest-800 text-amberwood-100 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center gap-2 transform hover:-translate-y-0.5 mt-6">
+                            <span>Prenota Sopralluogo Gratuito</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/393315730686" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-40 bg-[#25D366] hover:bg-[#128C7E] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transform hover:scale-110 transition-all cursor-pointer group" aria-label="WhatsApp Lapo">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        <span class="absolute -top-10 right-0 bg-white text-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-100">
+            Chatta con Lapo
+        </span>
+    </a>
+
+    <footer class="bg-forest-900 text-gray-300 py-12 border-t border-forest-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-amberwood-500 text-forest-900 rounded-lg flex items-center justify-center font-bold text-sm">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-white">I Giardini di Lapo</span>
+            </div>
+            
+            <div class="text-center md:text-left text-xs text-gray-400">
+                <p>&copy; <span id="currentYear"></span> I Giardini di Lapo di Lapo Bacci. Tutti i diritti riservati.</p>
+                <p class="mt-1">P.IVA 05602160482 - Sede Legale: Via di Varlungo snc, 50136 Firenze</p>
+            </div>
+            
+            <!-- NUOVO: Link che aprono le Modali -->
+            <div class="flex gap-6 text-xs text-gray-400">
+                <button type="button" onclick="openModal('privacyModal')" class="hover:text-white transition-colors cursor-pointer">Privacy Policy</button>
+                <button type="button" onclick="openModal('cookieModal')" class="hover:text-white transition-colors cursor-pointer">Cookie Policy</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modale Notifiche (Successo/Errore) -->
+    <div id="messageBox" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="messageContent">
+            <div class="text-center">
+                <div id="messageIconContainer" class="w-16 h-16 bg-forest-100 text-forest-800 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <i id="messageIcon" class="fas fa-check text-2xl"></i>
+                </div>
+                <h3 id="messageTitle" class="text-2xl font-serif font-bold text-forest-800 mb-2">Richiesta Ricevuta!</h3>
+                <p id="messageDesc" class="text-gray-600 mb-8 text-sm leading-relaxed">
+                    Grazie per aver inoltrato i dati. Lapo ti contatterà nelle prossime ore per pianificare il sopralluogo a Firenze o dintorni.
+                </p>
+                <button onclick="closeMessageBox()" class="w-full bg-forest-800 hover:bg-forest-700 text-amberwood-100 font-bold py-3 rounded-xl transition-colors shadow-md">
+                    Chiudi Finestra
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale Privacy Policy -->
+    <div id="privacyModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 max-w-2xl w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[80vh] overflow-y-auto" id="privacyContent">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-2xl font-serif font-bold text-forest-800">Informativa sulla Privacy</h3>
+                <button onclick="closeModal('privacyModal', 'privacyContent')" class="text-gray-400 hover:text-red-500 text-3xl transition-colors leading-none">&times;</button>
+            </div>
+            <div class="text-gray-600 text-sm leading-relaxed space-y-4">
+                <p>Ai sensi dell'art. 13 del Regolamento (UE) 2016/679 (GDPR), ti informiamo su come trattiamo i tuoi dati.</p>
+                <p><strong>1. Titolare del Trattamento:</strong> Lapo Bacci - I Giardini di Lapo. Sede: Via di Varlungo snc, 50136 Firenze. P.IVA: 05602160482. Email: info@igiardinidilapo.it.</p>
+                <p><strong>2. Dati Trattati e Finalità:</strong> Raccogliamo solo i dati inseriti volontariamente nel modulo di contatto (Nome, Email, Telefono, dettagli richiesta) al solo scopo di rispondere alle tue richieste di informazioni, formulare preventivi e organizzare sopralluoghi.</p>
+                <p><strong>3. Base Giuridica:</strong> Il trattamento è basato sull'esecuzione di misure precontrattuali adottate su tua richiesta (art. 6, par. 1, lett. b del GDPR) e sul tuo consenso espresso tramite spunta nel form di contatto.</p>
+                <p><strong>4. Conservazione dei Dati:</strong> I tuoi dati saranno conservati per il tempo strettamente necessario a gestire la tua richiesta. In caso di mancato accordo commerciale, i dati verranno cancellati in modo sicuro.</p>
+                <p><strong>5. Comunicazione a Terzi:</strong> I tuoi dati NON verranno ceduti a terzi per scopi di marketing, spam o profilazione. Sono gestiti unicamente dal Titolare tramite il servizio sicuro Web3Forms (utilizzato esclusivamente per l'invio tecnico della mail ai nostri server).</p>
+                <p><strong>6. I tuoi diritti:</strong> In ogni momento puoi chiedere l'accesso, la rettifica, la cancellazione dei dati (diritto all'oblio), o opporti al loro trattamento scrivendo direttamente a info@igiardinidilapo.it (Artt. 15-22 del GDPR).</p>
+            </div>
+            <button onclick="closeModal('privacyModal', 'privacyContent')" class="mt-8 w-full bg-forest-800 hover:bg-forest-700 text-amberwood-100 font-bold py-3 rounded-xl transition-colors">Ho compreso e Chiudi</button>
+        </div>
+    </div>
+
+    <!-- Modale Cookie Policy -->
+    <div id="cookieModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 max-w-2xl w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[80vh] overflow-y-auto" id="cookieContent">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-2xl font-serif font-bold text-forest-800">Informativa sui Cookie</h3>
+                <button onclick="closeModal('cookieModal', 'cookieContent')" class="text-gray-400 hover:text-red-500 text-3xl transition-colors leading-none">&times;</button>
+            </div>
+            <div class="text-gray-600 text-sm leading-relaxed space-y-4">
+                <p><strong>Cosa sono i cookie?</strong><br>I cookie sono piccoli file di testo che i siti visitati inviano al terminale dell'utente (computer o dispositivo mobile), dove vengono memorizzati, per poi essere ritrasmessi agli stessi siti alla visita successiva.</p>
+                
+                <p><strong>Quali cookie utilizza questo sito?</strong><br>Con grande rispetto per la tua privacy, abbiamo deciso di progettare questo sito per renderlo il più "pulito" e sicuro possibile. Pertanto:</p>
+                <ul class="list-disc pl-5 space-y-2 text-forest-800 font-medium">
+                    <li>NON utilizziamo cookie di profilazione o tracciamento (es. Google Analytics, Pixel di Facebook o simili).</li>
+                    <li>NON utilizziamo cookie di marketing, retargeting o pubblicità di terze parti.</li>
+                </ul>
+                
+                <p>Il sito potrebbe utilizzare esclusivamente <strong>cookie tecnici strettamente necessari</strong> al funzionamento dell'infrastruttura di base (ad esempio per garantire la sicurezza del server o il corretto bilanciamento del carico). Per l'installazione di tali cookie puramente tecnici non è richiesto il preventivo consenso degli utenti, secondo la normativa vigente (Direttiva ePrivacy e Provvedimento Garante Privacy del 10 giugno 2021).</p>
+                
+                <div class="bg-forest-50 p-4 rounded-xl border border-forest-100 mt-4">
+                    <p class="text-forest-900"><strong>Niente fastidiosi Cookie Banner:</strong><br>Proprio per la totale assenza di cookie traccianti o di profilazione, navigando su questo sito non ti viene mostrato il classico banner di accettazione cookie. Ti garantiamo così una navigazione più veloce, sicura e senza alcuna raccolta di dati comportamentali a tua insaputa.</p>
+                </div>
+            </div>
+            <button onclick="closeModal('cookieModal', 'cookieContent')" class="mt-8 w-full bg-forest-800 hover:bg-forest-700 text-amberwood-100 font-bold py-3 rounded-xl transition-colors">Ho compreso e Chiudi</button>
+        </div>
+    </div>
+
+    <script>
+        // Gestione data nel footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Dati agenda mese
+        const monthlyAdvice = [
+            {
+                month: "Gennaio",
+                advices: [
+                    { title: "Potature Invernali", icon: "fa-scissors", desc: "Periodo ideale per la potatura di riposo di alberi da frutto, siepi decidue e arbusti." },
+                    { title: "Protezione dal Gelo", icon: "fa-snowflake", desc: "Copertura delle piante più sensibili al freddo e pacciamatura delle aiuole per le radici." }
+                ]
+            },
+            {
+                month: "Febbraio",
+                advices: [
+                    { title: "Lavorazione Terreno", icon: "fa-trowel", desc: "Zappatura e preparazione del letto di semina. Pulizia del terreno dalle foglie marcescenti." },
+                    { title: "Trattamenti Fitosanitari", icon: "fa-spray-can", desc: "Applicazione di trattamenti preventivi su piante a foglia caduca prima dell'apertura delle gemme." }
+                ]
+            },
+            {
+                month: "Marzo",
+                advices: [
+                    { title: "Risveglio del Prato", icon: "fa-seedling", desc: "Primo taglio leggero, arieggiatura del tappeto erboso e prima concimazione primaverile azotata." },
+                    { title: "Avvio Irrigazione", icon: "fa-droplet", desc: "Controllo e manutenzione dell'impianto di irrigazione in vista dei tepori primaverili." }
+                ]
+            },
+            {
+                month: "Aprile",
+                advices: [
+                    { title: "Semina e Nuovi Prati", icon: "fa-leaf", desc: "Mese eccellente per la semina di nuovi tappeti erbosi o per la posa rapida del prato a rotoli." },
+                    { title: "Gestione Infestanti", icon: "fa-bug", desc: "Inizio del controllo delle erbe infestanti e monitoraggi per prevenire afidi sui nuovi germogli." }
+                ]
+            },
+            {
+                month: "Maggio",
+                advices: [
+                    { title: "Tagli Frequenti", icon: "fa-scissors", desc: "Il prato è nel suo massimo vigore e richiede tagli regolari. Mantenimento e sagomatura delle siepi." },
+                    { title: "Gestione Irrigazione", icon: "fa-water", desc: "Regolazione dei timer d'irrigazione basata sulle prime ondate di calore, evitando ristagni idrici." }
+                ]
+            },
+            {
+                month: "Giugno",
+                advices: [
+                    { title: "Concimazione Antistress", icon: "fa-flask", desc: "Distribuzione di concimi potassici per preparare il prato ad affrontare lo stress termico estivo." },
+                    { title: "Lotta alle Zanzare", icon: "fa-mosquito", desc: "Avvio dei trattamenti abbattenti e repellenti contro zanzare, con prodotti sicuri e certificati." }
+                ]
+            },
+            {
+                month: "Luglio",
+                advices: [
+                    { title: "Irrigazione Calibrata", icon: "fa-droplet", desc: "Regolare i timer per le ore più fresche onde evitare evaporazione e shock termico alle radici." },
+                    { title: "Potature Verdi", icon: "fa-scissors", desc: "Cura delle siepi di bosso ed alloro per contenerne la crescita e favorirne la densità interna." }
+                ]
+            },
+            {
+                month: "Agosto",
+                advices: [
+                    { title: "Manutenzione Estiva", icon: "fa-sun", desc: "Alzare leggermente l'altezza di taglio del rasaerba per proteggere l'erba dai raggi solari cocenti." },
+                    { title: "Controllo Malattie", icon: "fa-magnifying-glass", desc: "Massima attenzione alle malattie fungine del prato causate dall'umidità serale unita al caldo." }
+                ]
+            },
+            {
+                month: "Settembre",
+                advices: [
+                    { title: "Ripristino Autunnale", icon: "fa-seedling", desc: "Arieggiatura, trasemina delle zone diradate dal caldo e concimazione di ripresa per il prato." },
+                    { title: "Nuove Piantumazioni", icon: "fa-tree", desc: "Il terreno caldo e le prime piogge creano l'ambiente perfetto per piantare nuovi arbusti." }
+                ]
+            },
+            {
+                month: "Ottobre",
+                advices: [
+                    { title: "Raccolta Foglie", icon: "fa-leaf", desc: "Pulizia regolare dei prati dalle foglie secche cadute per evitare asfissia dell'erba sottostante." },
+                    { title: "Potature Autunnali", icon: "fa-scissors", desc: "Interventi di riduzione e sfoltimento chioma in preparazione dei venti invernali per i grandi alberi." }
+                ]
+            },
+            {
+                month: "Novembre",
+                advices: [
+                    { title: "Chiusura Impianti", icon: "fa-wrench", desc: "Svuotamento delle tubazioni e spegnimento degli impianti di irrigazione per evitare danni da gelate." },
+                    { title: "Concimazione Pre-inverno", icon: "fa-flask", desc: "Ultima concimazione dell'anno ricca in potassio per fortificare l'erba contro il freddo imminente." }
+                ]
+            },
+            {
+                month: "Dicembre",
+                advices: [
+                    { title: "Cura Attrezzature", icon: "fa-screwdriver-wrench", desc: "Manutenzione di macchinari, affilatura lame e pianificazione progettuale per la primavera." },
+                    { title: "Abbattimenti Sicuri", icon: "fa-triangle-exclamation", desc: "Mese ideale, data l'assenza di attività vegetativa, per abbattimenti controllati di alberi instabili." }
+                ]
+            }
+        ];
+
+        function initDynamicCalendar() {
+            const currentMonthIndex = new Date().getMonth();
+            const monthData = monthlyAdvice[currentMonthIndex];
+            
+            document.getElementById('dynamic-month').textContent = monthData.month.toUpperCase();
+            
+            const container = document.getElementById('dynamic-advice-container');
+            container.innerHTML = ''; 
+            
+            monthData.advices.forEach(advice => {
+                const adviceHTML = `
+                    <div class="bg-forest-700/60 border border-forest-600/50 p-4 rounded-xl flex-1 min-w-[200px] shadow-md transition-transform hover:-translate-y-1 duration-300">
+                        <h5 class="font-bold text-sm text-amberwood-200 mb-2"><i class="fa-solid ${advice.icon} mr-2 text-sm"></i>${advice.title}</h5>
+                        <p class="text-xs text-gray-300 leading-relaxed">${advice.desc}</p>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', adviceHTML);
+            });
+        }
+        initDynamicCalendar();
+
+        // Gestione Menu Mobile
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const menuDropdown = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuDropdown.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuDropdown.classList.add('hidden');
+            });
+        });
+
+        // Chiudi menu cliccando fuori (Ottimizzazione Mobile)
+        document.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
+                menuDropdown.classList.add('hidden');
+            }
+        });
+
+        const canvas = document.getElementById('leaf-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let leavesList = [];
+        const leafColorsList = ['#4c8c5f', '#6ea77f', '#3a7049', '#9cc7a9', '#bf985d'];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class RealisticLeaf {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = 6 + Math.random() * 12;
+                this.speedY = 0.6 + Math.random() * 1.2;
+                this.speedX = -0.5 + Math.random() * 1.5;
+                this.color = leafColorsList[Math.floor(Math.random() * leafColorsList.length)];
+                this.angle = Math.random() * Math.PI * 2;
+                this.spinSpeed = -0.01 + Math.random() * 0.03;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y / 30) * 0.3; 
+                this.angle += this.spinSpeed;
+
+                if (this.y > canvas.height + 20 || this.x < -20 || this.x > canvas.width + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.moveTo(0, -this.size);
+                ctx.quadraticCurveTo(this.size * 0.6, -this.size * 0.2, 0, this.size);
+                ctx.quadraticCurveTo(-this.size * 0.6, -this.size * 0.2, 0, -this.size);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 28; i++) {
+            leavesList.push(new RealisticLeaf());
+        }
+
+        function runAnimationLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            leavesList.forEach(leaf => {
+                leaf.update();
+                leaf.draw();
+            });
+            requestAnimationFrame(runAnimationLoop);
+        }
+        runAnimationLoop();
+
+
+        const areaSlider = document.getElementById('area-slider');
+        const areaValueLabel = document.getElementById('area-val');
+        const totalEstimationLabel = document.getElementById('total-estimation');
+        const calculatedServices = document.querySelectorAll('.calc-service');
+        const calculatedFixedServices = document.querySelectorAll('.calc-fixed-service');
+
+        function evaluateEstimate() {
+            const areaSize = parseInt(areaSlider.value);
+            areaValueLabel.textContent = `${areaSize} Mq`;
+
+            let costPerSqm = 0;
+            calculatedServices.forEach(chk => {
+                if(chk.checked) {
+                    costPerSqm += parseFloat(chk.value);
+                }
+            });
+
+            let baseCost = areaSize * costPerSqm;
+
+            calculatedFixedServices.forEach(chk => {
+                if(chk.checked) {
+                    baseCost += parseFloat(chk.value);
+                }
+            });
+
+            if(baseCost < 60) baseCost = 60;
+
+            const formatter = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
+            const formattedTotal = formatter.format(baseCost);
+            totalEstimationLabel.textContent = formattedTotal;
+
+            const whatsappBtn = document.getElementById('whatsapp-quote-btn');
+            if(whatsappBtn) {
+                const chosenServices = [];
+                calculatedServices.forEach(chk => {
+                    if(chk.checked) chosenServices.push(chk.nextElementSibling.textContent.trim());
+                });
+                calculatedFixedServices.forEach(chk => {
+                    if(chk.checked) chosenServices.push(chk.nextElementSibling.textContent.trim());
+                });
+                
+                const textMsg = `Salve Lapo, ho calcolato un preventivo indicativo sul tuo sito.\n\n*Area:* ${areaSize} Mq\n*Servizi scelti:* ${chosenServices.join(', ')}\n*Stima indicativa:* ${formattedTotal}\n\nTi contatto per avere un preventivo più accurato.`;
+                whatsappBtn.href = `https://wa.me/393315730686?text=${encodeURIComponent(textMsg)}`;
+            }
+        }
+
+        areaSlider.addEventListener('input', evaluateEstimate);
+        calculatedServices.forEach(chk => chk.addEventListener('change', evaluateEstimate));
+        calculatedFixedServices.forEach(chk => chk.addEventListener('change', evaluateEstimate));
+        evaluateEstimate(); 
+
+        const sliderContainer = document.getElementById('slider-container');
+        const beforeImageWrap = document.getElementById('before-image-wrap');
+        const sliderBar = document.getElementById('slider-bar');
+
+        let isDraggingActive = false;
+
+        function setSliderPosition(xCoord) {
+            const rect = sliderContainer.getBoundingClientRect();
+            let relativeX = xCoord - rect.left;
+            
+            if(relativeX < 0) relativeX = 0;
+            if(relativeX > rect.width) relativeX = rect.width;
+
+            const percentage = (relativeX / rect.width) * 100;
+            beforeImageWrap.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
+            sliderBar.style.left = `${percentage}%`;
+        }
+
+        sliderContainer.addEventListener('mousedown', (e) => {
+            isDraggingActive = true;
+            setSliderPosition(e.clientX);
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDraggingActive = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if(!isDraggingActive) return;
+            setSliderPosition(e.clientX);
+        });
+
+        sliderContainer.addEventListener('touchstart', (e) => {
+            isDraggingActive = true;
+            setSliderPosition(e.touches[0].clientX);
+        });
+
+        window.addEventListener('touchend', () => {
+            isDraggingActive = false;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if(!isDraggingActive) return;
+            setSliderPosition(e.touches[0].clientX);
+        });
+
+        setTimeout(() => {
+            const rect = sliderContainer.getBoundingClientRect();
+            setSliderPosition(rect.left + (rect.width * 0.5));
+        }, 400);
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.from(".hero-anim", {
+                y: 30,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out",
+                delay: 0.1
+            });
+
+            gsap.to("#hero-bg-video", {
+                scrollTrigger: {
+                    trigger: "section",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                },
+                y: 50,
+                scale: 1.15
+            });
+
+            gsap.from(".gsap-fade-up", {
+                scrollTrigger: {
+                    trigger: "#chi-siamo",
+                    start: "top 80%",
+                },
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+            
+            const form = document.getElementById('bookingForm');
+            if(form) {
+                form.addEventListener('submit', handleFormSubmit);
+            }
+        });
+
+        // NUOVO: Gestione apertura e chiusura Modali legali (Privacy e Cookie)
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = document.getElementById(modalId.replace('Modal', 'Content'));
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal(modalId, contentId) {
+            const modal = document.getElementById(modalId);
+            const content = document.getElementById(contentId);
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+        }
+
+        function showNotification(type, messageText) {
+            const modal = document.getElementById('messageBox');
+            const modalContent = document.getElementById('messageContent');
+            const iconContainer = document.getElementById('messageIconContainer');
+            const icon = document.getElementById('messageIcon');
+            const title = document.getElementById('messageTitle');
+            const desc = document.getElementById('messageDesc');
+
+            if (type === 'success') {
+                iconContainer.className = 'w-16 h-16 bg-forest-100 text-forest-800 rounded-full flex items-center justify-center mx-auto mb-5';
+                icon.className = 'fas fa-check text-2xl';
+                title.textContent = 'Richiesta Ricevuta!';
+                title.className = 'text-2xl font-serif font-bold text-forest-800 mb-2';
+                desc.textContent = 'Grazie per aver inoltrato i dati. Lapo ti contatterà nelle prossime ore per pianificare il sopralluogo a Firenze o dintorni.';
+            } else {
+                iconContainer.className = 'w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-5';
+                icon.className = 'fas fa-exclamation-triangle text-2xl';
+                title.textContent = 'Errore di invio';
+                title.className = 'text-2xl font-serif font-bold text-red-600 mb-2';
+                desc.textContent = messageText || 'Si è verificato un problema di rete. Ti preghiamo di riprovare più tardi o contattarci via WhatsApp.';
+            }
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const btn = form.querySelector('button[type="submit"]');
+            const originalBtnText = btn.innerHTML;
+            
+            btn.innerHTML = '<span>Invio in corso...</span> <i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            const formData = new FormData(form);
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    showNotification('success');
+                    form.reset(); 
+                } else {
+                    console.error("Errore Web3Forms:", json);
+                    showNotification('error', "Si è verificato un errore dal server: " + json.message);
+                }
+            })
+            .catch(error => {
+                console.error("Errore nell'invio:", error);
+                showNotification('error');
+            })
+            .finally(() => {
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            });
+        }
+
+        function closeMessageBox() {
+            const modal = document.getElementById('messageBox');
+            const modalContent = document.getElementById('messageContent');
+            
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+    </script>
+</body>
+</html>
