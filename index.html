@@ -54,7 +54,7 @@
                     }
                 }
             }
-        }
+        };
     </script>
 
     <style>
@@ -99,11 +99,11 @@
         .slider-handle {
             cursor: ew-resize;
             box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.3), 0 4px 20px rgba(0,0,0,0.25);
-            touch-action: none; /* Impedisce scroll di pagina durante il trascinamento */
+            touch-action: none;
         }
 
         #slider-container {
-            touch-action: pan-y; /* Consente lo scorrimento verticale della pagina ma cattura il drag orizzontale */
+            touch-action: pan-y;
         }
 
         ::-webkit-scrollbar {
@@ -120,17 +120,15 @@
             background: #9cc7a9;
         }
         
-        /* --- OTTIMIZZAZIONI SPECIFICHE MOBILE --- */
         * {
             -webkit-tap-highlight-color: transparent;
         }
         @media screen and (max-width: 768px) {
             input, select, textarea {
-                font-size: 16px !important; /* Previene l'auto-zoom fastidioso di iOS Safari */
+                font-size: 16px !important;
             }
         }
 
-        /* --- OTTIMIZZAZIONE GPU PER IL VIDEO DI SFONDO --- */
         #hero-bg-video {
             will-change: transform, opacity;
             backface-visibility: hidden;
@@ -314,7 +312,7 @@
                     </p>
                 </div>
 
-                <div class="max-w-4xl mx-auto relative rounded-3xl overflow-hidden shadow-2xl aspect-[16/10] select-none border-4 border-white touch-pan-y reveal-up" id="slider-container" style="touch-action: pan-y;">
+                <div class="max-w-4xl mx-auto relative rounded-3xl overflow-hidden shadow-2xl aspect-[16/10] select-none border-4 border-white touch-pan-y reveal-up" id="slider-container">
                     <img src="Gemini_Generated_Image_dspauodspauodspa.png" alt="Giardino dopo la manutenzione di Lapo Bacci" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute top-4 right-4 sm:top-auto sm:bottom-6 sm:right-6 bg-forest-800/90 text-white font-bold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-[10px] sm:text-sm tracking-wide shadow-md z-30 pointer-events-none">
                         DOPO IL NOSTRO INTERVENTO
@@ -350,7 +348,7 @@
                     <!-- Servizio 0 -->
                     <div onclick="openServicePage(0)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:border-forest-300 hover:shadow-xl transition-all duration-300 group reveal-up">
                         <div class="h-52 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=600&q=80" alt="Manutenzione Giardini Privati e Condomini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="condominio.png" alt="Manutenzione Giardini Privati e Condomini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 PROGRAMMATA
                             </div>
@@ -366,7 +364,7 @@
                     <!-- Servizio 1 -->
                     <div onclick="openServicePage(1)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:border-forest-300 hover:shadow-xl transition-all duration-300 group reveal-up">
                         <div class="h-52 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80" alt="Potatura alberi siepi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="potature.png" alt="Potatura alberi siepi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 SPECIALIZZATA
                             </div>
@@ -374,7 +372,7 @@
                         <div class="p-8">
                             <h4 class="text-xl font-bold text-forest-800 group-hover:text-forest-600 transition-colors mb-3">Potature e Abbattimenti <i class="fa-solid fa-arrow-right text-xs ml-1 opacity-0 group-hover:opacity-100 transition-all"></i></h4>
                             <p class="text-gray-600 text-sm leading-relaxed">
-                                Cura artistica e fitosanitaria di siepi, arbusti sagomati e alberi da frutto. Gestione qualificata e sicura di piante ad alto fusto con attrezzatura a norma di legge.
+                                Cura artistica e fitosanitaria di siepi, arbusti sagomati e alberi da frutto. Gestione qualificata e sia cura di piante ad alto fusto con attrezzatura a norma di legge.
                             </p>
                         </div>
                     </div>
@@ -382,7 +380,7 @@
                     <!-- Servizio 2 -->
                     <div onclick="openServicePage(2)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:border-forest-300 hover:shadow-xl transition-all duration-300 group reveal-up">
                         <div class="h-52 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=600&q=80" alt="Posa prato a rotoli" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="tappeti.png" alt="Posa prato a rotoli" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 RAPIDO
                             </div>
@@ -398,7 +396,7 @@
                     <!-- Servizio 3 -->
                     <div onclick="openServicePage(3)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:border-forest-300 hover:shadow-xl transition-all duration-300 group reveal-up">
                         <div class="h-52 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=600&q=80" alt="Impianti Irrigazione" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="irrigazione.png" alt="Impianti Irrigazione" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 TECNOLOGIA
                             </div>
@@ -414,7 +412,7 @@
                     <!-- Servizio 4 -->
                     <div onclick="openServicePage(4)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:border-forest-300 hover:shadow-xl transition-all duration-300 group reveal-up">
                         <div class="h-52 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80" alt="Disegno e Progettazione Giardini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="progettazione.png" alt="Disegno e Progettazione Giardini" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 RENDERING
                             </div>
@@ -430,7 +428,7 @@
                     <!-- Servizio 5 -->
                     <div onclick="openServicePage(5)" class="cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm border border-forest-100 hover:border-forest-300 hover:shadow-xl transition-all duration-300 group reveal-up">
                         <div class="h-52 relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=600&q=80" alt="Antiparassitari e Patentino Fitosanitario" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="zanzare.png" alt="Antiparassitari e Patentino Fitosanitario" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute top-4 left-4 bg-forest-800 text-amberwood-200 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
                                 PATENTINO
                             </div>
@@ -655,7 +653,7 @@
                             
                             <div>
                                 <label for="message" class="block text-xs font-semibold text-gray-700 uppercase mb-2">Dettagli della tua richiesta</label>
-                                <textarea id="message" name="Messaggio" rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white resize-none text-gray-700" placeholder="Descrivi qui brevemente lo stato attuale dell'area e le tue necessità..."></textarea>
+                                <textarea id="message" name="Messaggio" rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 outline-none transition-all bg-white resize-none text-gray-700" placeholder="Descrivi qui brevemente lo stato attuale dell'area e le deine necessità..."></textarea>
                             </div>
 
                             <div class="flex items-start gap-3 mt-4">
@@ -785,7 +783,7 @@
                 <p><strong>2. Dati Trattati e Finalità:</strong> Raccogliamo solo i dati inseriti volontariamente nel modulo di contatto (Nome, Email, Telefono, dettagli richiesta) al solo scopo di rispondere alle tue richieste di informazioni, formulare preventivi e organizzare sopralluoghi.</p>
                 <p><strong>3. Base Giuridica:</strong> Il trattamento è basato sull'esecuzione di misure precontrattuali adottate su tua richiesta (art. 6, par. 1, lett. b del GDPR) e sul tuo consenso espresso tramite spunta nel form di contatto.</p>
                 <p><strong>4. Conservazione dei Dati:</strong> I tuoi dati saranno conservati per il tempo strettamente necessario a gestire la tua richiesta. In caso di mancato accordo commerciale, i dati verranno cancellati in modo sicuro.</p>
-                <p><strong>5. Communicatione a Terzi:</strong> I tuoi dati NON verranno ceduti a terzi per scopi di marketing, spam o profilazione. Sono gestiti unicamente dal Titolare tramite il servizio sicuro Web3Forms (utilizzato esclusivamente per l'invio tecnico della mail ai nostri server).</p>
+                <p><strong>5. Comunicazione a Terzi:</strong> I tuoi dati NON verranno ceduti a terzi per scopi di marketing, spam o profilazione. Sono gestiti unicamente dal Titolare tramite il servizio sicuro Web3Forms (utilizzato esclusivamente per l'invio tecnico della mail ai nostri server).</p>
                 <p><strong>6. I tuoi diritti:</strong> In ogni momento puoi chiedere l'accesso, la rettifica, la cancellazione dei dati (diritto all'oblio), o opporti al loro trattamento scrivendo direttamente a info@igiardinidilapo.it (Artt. 15-22 del GDPR).</p>
             </div>
             <button onclick="closeModal('privacyModal', 'privacyContent')" class="mt-8 w-full bg-forest-800 hover:bg-forest-700 text-amberwood-100 font-bold py-3 rounded-xl transition-colors">Ho compreso e Chiudi</button>
@@ -852,7 +850,7 @@
                 <div class="relative z-10">
                     <h4 class="text-2xl font-serif font-bold text-amberwood-300 mb-4">Costi Fissi e Trasparenti</h4>
                     <p class="text-lg sm:text-xl font-serif leading-relaxed">
-                        Tale contratto prevede un costo fisso, stabilito sulle singole esigenze, che non varia in alcun modo nel corso dell’anno. La decorrenza del contratto può essere stabilita in qualsiasi giorno dell’anno. Possono essere previsi lavori in economia, svolti se e quando necessari.
+                        Tale contratto prevede un costo fisso, stabilito sulle singole esigenze, che non varia in alcun modo nel corso dell’anno. La decorrenza del contratto può essere stabilita in qualsiasi giorno dell’anno. Possono essere previsti lavori in economia, svolti se e quando necessari.
                     </p>
                 </div>
             </div>
@@ -969,7 +967,7 @@
             
             <div class="space-y-6 text-base sm:text-lg pt-2">
                 <p>
-                    I Giardini di Lapo si occupa della realizzazione e della manutenzione di tappeti erbosi a Firenze e provincia. Grazie all’approfondita conoscenza del settore e la grande esperienza maturata, I Giardini di Lapo è in grado di accompagnare il proprio cliente sin dalla scelta del miscuglio più adatto alle esigenze del luogo ed ai desideri del cliente stesso. La scelta del miscuglio di seme più adatto, così come la realizzazione di prato con seme o di prato con rotoli, dipende da molteplici fattori: il clima, l’esposizione, il tipo di terreno e la sua conformazione, la destinazione d’uso, il tempo che si pensa di poter dedicare al prato ed infine, fattore questo molto importante, la disponibilità di acqua per l’irrigazione.
+                    I Giardini di Lapo si occupa della realizzazione e della manutenzione di tappeti erbosi a Firenze e provincia. Grazie all’approfondita conoscenza del settore e la grande esperienza maturata, I Giardini di Lapo è in grado di accompagnare il proprio cliente sin dalla scelta del miscuglio più adatto alle esigenze del luogo ed ai desideri del cliente stesso. La scelta del miscuglio di seme più adatto, così come la realizzazione di prato con seme o di prato con rotoli, dipende da molteplici fattori: il clima, l’esposizione, il tipo di terreno e la sua conformazione, la destinazione d'uso, il tempo che si pensa di poter dedicare al prato ed infine, fattore questo molto importante, la disponibilità di acqua per l’irrigazione.
                 </p>
                 <p class="italic font-semibold text-forest-900 bg-forest-50 p-4 rounded-xl border border-forest-100">
                     Per riuscire a realizzare tappeti erbosi duratori nel tempo è dunque determinante un proficuo dialogo cliente-giardiniere.
@@ -1001,7 +999,7 @@
             <div class="bg-forest-800 text-white p-8 sm:p-10 rounded-3xl shadow-xl relative overflow-hidden my-8">
                 <i class="fa-solid fa-droplet absolute -bottom-6 -right-6 text-9xl text-forest-700/50 -rotate-12"></i>
                 <div class="relative z-10">
-                    <h4 class="text-2xl font-serif font-bold text-amberwood-300 mb-4">L'importanza dell'acqua</h4>
+                    <h4 class="text-2xl font-serif font-bold text-amberwood-300 mb-4">L'importance dell'acqua</h4>
                     <p class="text-base sm:text-lg leading-relaxed">
                         Ricordiamo che è fondamentale, per garantire il buon attecchimento del prato, che sia presente sul terreno un buon impianto di irrigazione, realizzato secondo le esigenze e le caratteristiche delle specie erbacee presenti a comporre la superficie del prato stesso. I Giardini di Lapo è in grado di supportare il cliente anche nella realizzazione di impianti di irrigazioni.
                     </p>
@@ -1177,7 +1175,7 @@
                         <i class="fa-solid fa-compass text-amberwood-500"></i> Analisi e Scelte Consapevoli
                     </h4>
                     <p class="text-base sm:text-lg">
-                        Nella realizzazione giardini sono molti i fattori che devono essere considerati, in particolar modo occorre adeguare le proprie scelte al tipo di ambiente a disposizione, così da evitare spese future o sprechi dettati dalla scelta sbaglaita di piante e materiali.
+                        Nella realizzazione giardini sono molti i fattori che devono essere considerati, in particolar modo occorre adeguare le proprie scelte al tipo di ambiente a disposizione, così da evitare spese future o sprechi dettati dalla scelta sbagliata di piante e materiali.
                     </p>
                 </div>
             </div>
@@ -1191,7 +1189,7 @@
                 <div class="relative z-10">
                     <h4 class="text-2xl font-serif font-bold text-amberwood-300 mb-4">Soluzioni Estetiche e Funzionali</h4>
                     <p class="text-lg sm:text-xl font-serif leading-relaxed">
-                        Il servizio di realizzazione giardini a Firenze e Prato è sempre effettuato cercando di fornire una solzione che sia funzionale e che tenga conto dell’importante fattore estetico, creando ambienti vivibili dedicati al relax oppure al gioco.
+                        Il servizio di realizzazione giardini a Firenze e Prato è sempre effettuato cercando di fornire una soluzione che sia funzionale e che tenga conto dell’importante fattore estetico, creando ambienti vivibili dedicati al relax oppure al gioco.
                     </p>
                 </div>
             </div>
@@ -1202,7 +1200,7 @@
                 </h3>
                 <div class="bg-[#FAF8F5] border border-forest-100 rounded-3xl p-6 sm:p-8 shadow-inner">
                     <p class="text-base sm:text-lg text-gray-700">
-                        E’ importante ricordare che il giardino merita l’attentione di ogni altro ambiente della casa: il giardino è uno spazio verde che rispecchia la personalità di ognuno e le sue esigenze. Deve quindi essere realizzato attraverso l’ascolto e la collaborazione con il cliente, al fine di migliorare la qualità della vita e valorizzare al meglio l’ambiente circostante e la propria abitazione.
+                        E’ importante ricordare che il giardino merita l’attenzione di ogni altro ambiente della casa: il giardino è uno spazio verde che rispecchia la personalità di ognuno e le sue esigenze. Deve quindi essere realizzato attraverso l’ascolto e la collaborazione con il cliente, al fine di migliorare la qualità della vita e valorizzare al meglio l’ambiente circostante e la propria abitazione.
                     </p>
                 </div>
             </div>
@@ -1223,12 +1221,12 @@
                 
                 <div class="bg-white border border-forest-100 rounded-2xl p-6 sm:p-8 shadow-sm">
                     <h4 class="text-xl font-serif font-bold text-forest-800 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-shield-virus text-amberwood-500"></i> Tipologie di Trattamenti Fitosanitari & Difesa Biologia:
+                        <i class="fa-solid fa-shield-virus text-amberwood-500"></i> Tipologie di Trattamenti Fitosanitari & Difesa Biologica:
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm sm:text-base">
                         <div class="space-y-3">
                             <h5 class="font-bold text-forest-700 flex items-center gap-2">
-                                <i class="fa-solid fa-bug-slash"></i> Cura di Malattie e Parassiti Arborei
+                                <i class="fa-solid fa-bug-slash"></i> Cura di Malatte e Parassiti Arborei
                             </h5>
                             <p class="text-gray-600">
                                 Diagnosi e cura tempestiva di afidi, cocciniglie, minatori fogliari, oidio, peronospora o minacce invasive aggressive come la processionaria del pino e il punteruolo rosso, salvaguardando il fusto.
@@ -1292,37 +1290,37 @@
             {
                 title: "Cura Giardini e Condomini",
                 tag: "PROGRAMMATA",
-                image: "https://images.unsplash.com/photo-1558904541-efa8c1a68f6a?auto=format&fit=crop&w=1200&q=80",
+                image: "condominio.png",
                 desc: "Piani di manutenzione ordinaria con cadenza settimanale o mensile. Taglio erba, pulizia aiuole, concimazione stagionale e controllo dello stato di salute generale delle piante a Firenze e provincia."
             },
             {
                 title: "Potature e Abbattimenti",
                 tag: "SPECIALIZZATA",
-                image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80",
+                image: "potature.png",
                 desc: "Cura artistica e fitosanitaria di siepi, arbusti sagomati e alberi da frutto. Gestione qualificata, efficiente e sicura di piante ad alto fusto con attrezzatura certificata a norma di legge."
             },
             {
                 title: "Tappeti Erbosi",
                 tag: "RAPIDO",
-                image: "https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=1200&q=80",
+                image: "tappeti.png",
                 desc: "Realizzazione e manutenzione di tappeti erbosi a Firenze. Posa prato a rotoli a pronto effetto o semine programmate a seconda del microclima e della destinazione d'uso."
             },
             {
                 title: "Impianti di Irrigazione",
                 tag: "TECNOLOGIA",
-                image: "https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=1200&q=80",
+                image: "irrigazione.png",
                 desc: "Progettazione, posa tubature e taratura centraline elettroniche di ultima generazione. Sistemi di microirrigazione a goccia per terrazze e irrigatori a scomparsa, ottimizzando il consumo idrico."
             },
             {
                 title: "Progettazione di Spazi Verdi",
                 tag: "RENDERING",
-                image: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1200&q=80",
+                image: "progettazione.png",
                 desc: "Servizio completo di progettazione e realizzazione giardini e spazi verdi a Firenze ed in Toscana. Creazione di soluzioni personalizzate e rendering 3D."
             },
             {
                 title: "Fitosanitari e Antizanzare",
                 tag: "PATENTINO",
-                image: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=1200&q=80",
+                image: "zanzare.png",
                 desc: "Servizi professionali contro zanzare tigri, afidi e insetti nocivi del giardino. Diserbo selettivo e disinfestazione eseguiti con l'uso di prodotti certificati in possesso di regolare patentino fitosanitario."
             }
         ];
@@ -1342,16 +1340,16 @@
 
             // Gestione dei contenuti estesi (Rich Text / Template)
             const richContentContainer = document.getElementById('service-rich-content');
-            const template = document.getElementById(`service-content-${index}`);
+            const template = document.getElementById('service-content-' + index);
             
             if (template) {
                 richContentContainer.innerHTML = template.innerHTML;
                 richContentContainer.classList.remove('hidden');
-                document.getElementById('service-desc').classList.add('hidden'); // Nascondi descrizione breve in favore dell'articolo
+                document.getElementById('service-desc').classList.add('hidden');
             } else {
                 richContentContainer.innerHTML = '';
                 richContentContainer.classList.add('hidden');
-                document.getElementById('service-desc').classList.remove('hidden'); // Ripristina descrizione breve
+                document.getElementById('service-desc').classList.remove('hidden');
             }
 
             // SPA Swap Views
@@ -1363,7 +1361,8 @@
         }
 
         // Function to smoothly return back to Homepage view at specified element anchor
-        function showHomeView(targetSectionId = null) {
+        function showHomeView(targetSectionId) {
+            const normalizedSectionId = targetSectionId || null;
             const homeView = document.getElementById('home-view');
             const serviceView = document.getElementById('service-detail-view');
 
@@ -1372,7 +1371,7 @@
                 serviceView.classList.add('hidden');
 
                 // Crucial fix: Let GSAP ScrollTrigger calculate correct positions of page layouts after unhiding home-view
-                setTimeout(() => {
+                setTimeout(function() {
                     if (typeof ScrollTrigger !== 'undefined') {
                         ScrollTrigger.refresh();
                     }
@@ -1380,9 +1379,9 @@
             }
 
             // Smoothly scroll to requested section anchor
-            if (targetSectionId) {
-                setTimeout(() => {
-                    const element = document.getElementById(targetSectionId);
+            if (normalizedSectionId) {
+                setTimeout(function() {
+                    const element = document.getElementById(normalizedSectionId);
                     if (element) {
                         element.scrollIntoView({ behavior: 'smooth' });
                     }
@@ -1487,7 +1486,7 @@
             const container = document.getElementById('dynamic-advice-container');
             container.innerHTML = ''; 
             
-            monthData.advices.forEach(advice => {
+            monthData.advices.forEach(function(advice) {
                 const adviceHTML = `
                     <div class="bg-forest-700/60 border border-forest-600/50 p-4 rounded-xl flex-1 min-w-[200px] shadow-md transition-transform hover:-translate-y-1 duration-300">
                         <h5 class="font-bold text-sm text-amberwood-200 mb-2"><i class="fa-solid ${advice.icon} mr-2 text-sm"></i>${advice.title}</h5>
@@ -1504,18 +1503,18 @@
         const menuDropdown = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        menuBtn.addEventListener('click', (e) => {
+        menuBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             menuDropdown.classList.toggle('hidden');
         });
 
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
+        mobileLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
                 menuDropdown.classList.add('hidden');
             });
         });
 
-        document.addEventListener('click', (e) => {
+        document.addEventListener('click', function(e) {
             if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
                 menuDropdown.classList.add('hidden');
             }
@@ -1528,16 +1527,13 @@
         const leafColorsList = ['#4c8c5f', '#6ea77f', '#3a7049', '#9cc7a9', '#bf985d'];
 
         function resizeCanvas() {
-            // Rileva pixel ratio del dispositivo (Retina / OLED ad alta densità)
             const dpr = window.devicePixelRatio || 1;
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             
-            // Applica il dimensionamento CSS per preservare le proporzioni matematiche
             canvas.style.width = window.innerWidth + 'px';
             canvas.style.height = window.innerHeight + 'px';
             
-            // Scala il contesto per garantire un rendering nitidissimo e privo di blur
             ctx.scale(dpr, dpr);
         }
         window.addEventListener('resize', resizeCanvas);
@@ -1588,7 +1584,6 @@
             }
         }
 
-        // Riduce le particelle caricate su mobile per risparmiare risorse e batteria
         const isMobileDevice = window.innerWidth < 768;
         const leafDensity = isMobileDevice ? 12 : 28;
 
@@ -1601,7 +1596,7 @@
             const logicalHeight = canvas.height / (window.devicePixelRatio || 1);
             ctx.clearRect(0, 0, logicalWidth, logicalHeight);
             
-            leavesList.forEach(leaf => {
+            leavesList.forEach(function(leaf) {
                 leaf.update();
                 leaf.draw();
             });
@@ -1621,7 +1616,7 @@
             areaValueLabel.textContent = `${areaSize} Mq`;
 
             let costPerSqm = 0;
-            calculatedServices.forEach(chk => {
+            calculatedServices.forEach(function(chk) {
                 if(chk.checked) {
                     costPerSqm += parseFloat(chk.value);
                 }
@@ -1629,7 +1624,7 @@
 
             let baseCost = areaSize * costPerSqm;
 
-            calculatedFixedServices.forEach(chk => {
+            calculatedFixedServices.forEach(function(chk) {
                 if(chk.checked) {
                     baseCost += parseFloat(chk.value);
                 }
@@ -1644,10 +1639,10 @@
             const whatsappBtn = document.getElementById('whatsapp-quote-btn');
             if(whatsappBtn) {
                 const chosenServices = [];
-                calculatedServices.forEach(chk => {
+                calculatedServices.forEach(function(chk) {
                     if(chk.checked) chosenServices.push(chk.nextElementSibling.textContent.trim());
                 });
-                calculatedFixedServices.forEach(chk => {
+                calculatedFixedServices.forEach(function(chk) {
                     if(chk.checked) chosenServices.push(chk.nextElementSibling.textContent.trim());
                 });
                 
@@ -1657,8 +1652,8 @@
         }
 
         areaSlider.addEventListener('input', evaluateEstimate);
-        calculatedServices.forEach(chk => chk.addEventListener('change', evaluateEstimate));
-        calculatedFixedServices.forEach(chk => chk.addEventListener('change', evaluateEstimate));
+        calculatedServices.forEach(function(chk) { chk.addEventListener('change', evaluateEstimate); });
+        calculatedFixedServices.forEach(function(chk) { chk.addEventListener('change', evaluateEstimate); });
         evaluateEstimate(); 
 
         const sliderContainer = document.getElementById('slider-container');
@@ -1679,36 +1674,35 @@
             sliderBar.style.left = `${percentage}%`;
         }
 
-        sliderContainer.addEventListener('mousedown', (e) => {
+        sliderContainer.addEventListener('mousedown', function(e) {
             isDraggingActive = true;
             setSliderPosition(e.clientX);
         });
 
-        window.addEventListener('mouseup', () => {
+        window.addEventListener('mouseup', function() {
             isDraggingActive = false;
         });
 
-        window.addEventListener('mousemove', (e) => {
+        window.addEventListener('mousemove', function(e) {
             if(!isDraggingActive) return;
             setSliderPosition(e.clientX);
         });
 
-        sliderContainer.addEventListener('touchstart', (e) => {
+        sliderContainer.addEventListener('touchstart', function(e) {
             isDraggingActive = true;
             setSliderPosition(e.touches[0].clientX);
         }, { passive: true });
 
-        window.addEventListener('touchend', () => {
+        window.addEventListener('touchend', function() {
             isDraggingActive = false;
         });
 
-        window.addEventListener('touchmove', (e) => {
+        window.addEventListener('touchmove', function(e) {
             if(!isDraggingActive) return;
-            // Calcola la posizione solo se l'utente sta attivamente trascinando
             setSliderPosition(e.touches[0].clientX);
         }, { passive: true });
 
-        setTimeout(() => {
+        setTimeout(function() {
             const rect = sliderContainer.getBoundingClientRect();
             if (rect) {
                 setSliderPosition(rect.left + (rect.width * 0.5));
@@ -1716,10 +1710,9 @@
         }, 400);
 
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", function() {
             gsap.registerPlugin(ScrollTrigger);
 
-            // Ottimizzazione ScrollTrigger per evitare micro-scatti dovuti al ridimensionamento dell'address bar mobile
             ScrollTrigger.config({
                 ignoreMobileResize: true
             });
@@ -1746,7 +1739,7 @@
             });
 
             // ANIMAZIONE REVEAL-UP
-            gsap.utils.toArray('.reveal-up').forEach(element => {
+            gsap.utils.toArray('.reveal-up').forEach(function(element) {
                 gsap.from(element, {
                     scrollTrigger: {
                         trigger: element,
@@ -1766,7 +1759,7 @@
             }
         });
 
-        window.addEventListener('load', () => {
+        window.addEventListener('load', function() {
             const videoElement = document.getElementById('hero-bg-video');
             if (videoElement) {
                 const sourceElement = document.createElement('source');
@@ -1776,9 +1769,9 @@
                 videoElement.appendChild(sourceElement);
                 videoElement.load();
                 
-                videoElement.play().then(() => {
+                videoElement.play().then(function() {
                     videoElement.classList.remove('opacity-0');
-                }).catch(err => {
+                }).catch(function(err) {
                     console.log("Play automatico inizialmente bloccato: ", err);
                     videoElement.classList.remove('opacity-0');
                 });
@@ -1848,9 +1841,11 @@
                 method: "POST",
                 body: formData
             })
-            .then(async (response) => {
-                let json = await response.json();
-                if (response.status == 200) {
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(json) {
+                if (json.success) {
                     showNotification('success');
                     form.reset(); 
                 } else {
@@ -1858,11 +1853,11 @@
                     showNotification('error', "Si è verificato un errore dal server: " + json.message);
                 }
             })
-            .catch(error => {
+            .catch(function(error) {
                 console.error("Errore nell'invio:", error);
                 showNotification('error');
             })
-            .finally(() => {
+            .finally(function() {
                 btn.innerHTML = originalBtnText;
                 btn.disabled = false;
                 btn.classList.remove('opacity-80', 'cursor-not-allowed');
