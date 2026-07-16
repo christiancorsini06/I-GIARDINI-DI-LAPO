@@ -71,7 +71,11 @@
             height: 100vh;
             z-index: 10;
             pointer-events: none;
-            opacity: 0.85;
+            opacity: 0; /* Modificato: inizialmente invisibile sulla prima pagina per non sovraccaricare la GPU col video */
+            /* Forza l'accelerazione hardware sul canvas */
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            transition: opacity 0.2s ease-out; /* Aggiunto: transizione fluida per l'apparizione delle foglie */
         }
 
         .glass-header {
@@ -79,6 +83,9 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(47, 91, 60, 0.08);
+            /* Forza l'accelerazione hardware per prevenire jitter durante lo scroll */
+            transform: translate3d(0, 0, 0);
+            will-change: transform, background-color;
         }
 
         .glass-card {
@@ -86,6 +93,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.6);
+            transform: translate3d(0, 0, 0);
         }
 
         .image-zoom-trigger:hover .zoom-target {
@@ -94,12 +102,16 @@
         
         .zoom-target {
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
         }
 
         .slider-handle {
             cursor: ew-resize;
             box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.3), 0 4px 20px rgba(0,0,0,0.25);
             touch-action: none;
+            /* Forza l'accelerazione hardware per uno scorrimento dello slider ultra-fluido */
+            transform: translate3d(-50%, -50%, 0) !important;
+            will-change: left;
         }
 
         #slider-container {
@@ -133,7 +145,8 @@
             will-change: transform, opacity;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            transform: translateZ(0);
+            /* Uniformato lo scale iniziale in CSS per combaciare perfettamente con l'inizio dell'effetto GSAP */
+            transform: scale(1.05) translate3d(0,0,0);
         }
     </style>
 </head>
@@ -188,7 +201,8 @@
     <!-- MAIN HOME LANDING VIEW -->
     <div id="home-view" class="transition-opacity duration-300">
 
-        <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-forest-950">
+        <!-- Aggiunto un id specifico 'hero-section' per agganciare in modo pulito e affidabile il trigger parallasse in GSAP -->
+        <section id="hero-section" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-forest-950">
             <div class="absolute inset-0 w-full h-full z-0">
                 <video id="hero-bg-video" loop muted playsinline class="w-full h-full object-cover object-center filter brightness-[0.85] scale-105 transform opacity-0 transition-opacity duration-1000" poster="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1920&q=70">
                     Il tuo browser non supporta i video HTML5.
@@ -783,7 +797,7 @@
                 <p><strong>2. Dati Trattati e Finalità:</strong> Raccogliamo solo i dati inseriti volontariamente nel modulo di contatto (Nome, Email, Telefono, dettagli richiesta) al solo scopo di rispondere alle tue richieste di informazioni, formulare preventivi e organizzare sopralluoghi.</p>
                 <p><strong>3. Base Giuridica:</strong> Il trattamento è basato sull'esecuzione di misure precontrattuali adottate su tua richiesta (art. 6, par. 1, lett. b del GDPR) e sul tuo consenso espresso tramite spunta nel form di contatto.</p>
                 <p><strong>4. Conservazione dei Dati:</strong> I tuoi dati saranno conservati per il tempo strettamente necessario a gestire la tua richiesta. In caso di mancato accordo commerciale, i dati verranno cancellati in modo sicuro.</p>
-                <p><strong>5. Comunicazione a Terzi:</strong> I tuoi dati NON verranno ceduti a terzi per scopi di marketing, spam o profilazione. Sono gestiti unicamente dal Titolare tramite il servizio sicuro Web3Forms (utilizzato esclusivamente per l'invio tecnico della mail ai nostri server).</p>
+                <p><strong>5. Communicatione a Terzi:</strong> I tuoi dati NON verranno ceduti a terzi per scopi di marketing, spam o profilazione. Sono gestiti unicamente dal Titolare tramite il servizio sicuro Web3Forms (utilizzato esclusivamente per l'invio tecnico della mail ai nostri server).</p>
                 <p><strong>6. I tuoi diritti:</strong> In ogni momento puoi chiedere l'accesso, la rettifica, la cancellazione dei dati (diritto all'oblio), o opporti al loro trattamento scrivendo direttamente a info@igiardinidilapo.it (Artt. 15-22 del GDPR).</p>
             </div>
             <button onclick="closeModal('privacyModal', 'privacyContent')" class="mt-8 w-full bg-forest-800 hover:bg-forest-700 text-amberwood-100 font-bold py-3 rounded-xl transition-colors">Ho compreso e Chiudi</button>
@@ -1495,6 +1509,11 @@
                 `;
                 container.insertAdjacentHTML('beforeend', adviceHTML);
             });
+
+            // Refresh ScrollTrigger istantaneamente per ricalcolare le dimensioni corrette dopo aver iniettato l'HTML
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+            }
         }
         initDynamicCalendar();
 
@@ -1525,6 +1544,8 @@
 
         let leavesList = [];
         const leafColorsList = ['#4c8c5f', '#6ea77f', '#3a7049', '#9cc7a9', '#bf985d'];
+        let animationFrameId = null;
+        let isTabActive = true;
 
         function resizeCanvas() {
             const dpr = window.devicePixelRatio || 1;
@@ -1592,18 +1613,53 @@
         }
 
         function runAnimationLoop() {
+            if (!isTabActive) return;
+
             const logicalWidth = canvas.width / (window.devicePixelRatio || 1);
             const logicalHeight = canvas.height / (window.devicePixelRatio || 1);
             ctx.clearRect(0, 0, logicalWidth, logicalHeight);
             
-            leavesList.forEach(function(leaf) {
-                leaf.update();
-                leaf.draw();
-            });
-            requestAnimationFrame(runAnimationLoop);
-        }
-        runAnimationLoop();
+            const scrollY = window.scrollY || window.pageYOffset;
+            const heroHeight = window.innerHeight;
 
+            // Nasconde completamente le foglie e blocca i calcoli se siamo sopra il 75% della prima pagina (Hero)
+            if (scrollY < heroHeight * 0.75) {
+                canvas.style.opacity = "0";
+            } else if (scrollY < heroHeight) {
+                // Dissolvenza fluida mentre usciamo dalla prima pagina
+                const factor = (scrollY - heroHeight * 0.75) / (heroHeight * 0.25);
+                canvas.style.opacity = (factor * 0.85).toString();
+                
+                // Aggiorna e disegna le foglie solo quando iniziano a diventare visibili
+                leavesList.forEach(function(leaf) {
+                    leaf.update();
+                    leaf.draw();
+                });
+            } else {
+                canvas.style.opacity = "0.85";
+                
+                // Esegue il rendering completo nelle sezioni successive
+                leavesList.forEach(function(leaf) {
+                    leaf.update();
+                    leaf.draw();
+                });
+            }
+            
+            animationFrameId = requestAnimationFrame(runAnimationLoop);
+        }
+
+        // Mette in pausa l'animazione se la scheda non è attiva
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                isTabActive = false;
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                isTabActive = true;
+                runAnimationLoop();
+            }
+        });
+
+        runAnimationLoop();
 
         const areaSlider = document.getElementById('area-slider');
         const areaValueLabel = document.getElementById('area-val');
@@ -1661,17 +1717,31 @@
         const sliderBar = document.getElementById('slider-bar');
 
         let isDraggingActive = false;
+        let pendingX = 0;
+        let isUpdateScheduled = false;
 
-        function setSliderPosition(xCoord) {
+        function updateSliderUI() {
             const rect = sliderContainer.getBoundingClientRect();
-            let relativeX = xCoord - rect.left;
+            let relativeX = pendingX - rect.left;
             
             if(relativeX < 0) relativeX = 0;
             if(relativeX > rect.width) relativeX = rect.width;
 
             const percentage = (relativeX / rect.width) * 100;
+            
+            // Layout aggiornato via requestAnimationFrame per evitare lag visivi
             beforeImageWrap.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
             sliderBar.style.left = `${percentage}%`;
+            
+            isUpdateScheduled = false;
+        }
+
+        function setSliderPosition(xCoord) {
+            pendingX = xCoord;
+            if (!isUpdateScheduled) {
+                requestAnimationFrame(updateSliderUI);
+                isUpdateScheduled = true;
+            }
         }
 
         sliderContainer.addEventListener('mousedown', function(e) {
@@ -1709,7 +1779,6 @@
             }
         }, 400);
 
-
         document.addEventListener("DOMContentLoaded", function() {
             gsap.registerPlugin(ScrollTrigger);
 
@@ -1726,30 +1795,56 @@
                 delay: 0.1
             });
 
-            // Parallasse Video Background
-            gsap.to("#hero-bg-video", {
-                scrollTrigger: {
-                    trigger: "section",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
+            // Parallasse Video Background - Risolto lo scatto di zoom usando fromTo vincolato a #hero-section
+            gsap.fromTo("#hero-bg-video", 
+                { scale: 1.05, y: 0 },
+                {
+                    scrollTrigger: {
+                        trigger: "#hero-section",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                        invalidateOnRefresh: true
+                    },
+                    y: 80,
+                    scale: 1.18,
+                    ease: "none"
+                }
+            );
+
+            // Ottimizzazione performance: mette in pausa il video pesante quando non è visibile nello schermo
+            ScrollTrigger.create({
+                trigger: "#hero-section",
+                start: "top top",
+                end: "bottom top",
+                onLeave: function() {
+                    const video = document.getElementById('hero-bg-video');
+                    if (video && !video.paused) {
+                        video.pause();
+                    }
                 },
-                y: 50,
-                scale: 1.15
+                onEnterBack: function() {
+                    const video = document.getElementById('hero-bg-video');
+                    if (video && video.paused) {
+                        video.play().catch(function(err) {
+                            console.log("Play automatico prevenuto dal browser: ", err);
+                        });
+                    }
+                }
             });
 
-            // ANIMAZIONE REVEAL-UP
+            // ANIMAZIONE REVEAL-UP - Ottimizzato il punto di aggancio e la curva di accelerazione per evitare scatti improvvisi
             gsap.utils.toArray('.reveal-up').forEach(function(element) {
                 gsap.from(element, {
                     scrollTrigger: {
                         trigger: element,
-                        start: "top 85%", 
+                        start: "top 92%", 
                         toggleActions: "play none none none"
                     },
-                    y: 40, 
+                    y: 30, 
                     opacity: 0, 
                     duration: 1, 
-                    ease: "power3.out" 
+                    ease: "power2.out" 
                 });
             });
             
@@ -1776,6 +1871,13 @@
                     videoElement.classList.remove('opacity-0');
                 });
             }
+
+            // Forza un ricalcolo immediato dei trigger di GSAP al caricamento completo della pagina e dei suoi elementi statici
+            setTimeout(function() {
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
+            }, 200);
         });
 
         function openModal(modalId) {
